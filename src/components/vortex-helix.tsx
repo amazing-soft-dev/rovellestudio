@@ -96,13 +96,9 @@ export function VortexHelix() {
   }
 
   return (
-    <div ref={frame} className="relative h-full w-full">
+    <div ref={frame} className={compact ? "flex h-full w-full flex-col" : "relative h-full w-full"}>
       <div
-        className={
-          compact
-            ? "absolute inset-x-0 top-0 bottom-1/2 overflow-hidden"
-            : "absolute inset-0 overflow-hidden"
-        }
+        className={compact ? "relative min-h-0 flex-1 overflow-hidden" : "absolute inset-0 overflow-hidden"}
         style={{
           perspective: `${perspective}px`,
           maskImage: "linear-gradient(to bottom, transparent 0%, #000 20%, #000 80%, transparent 100%)",
@@ -219,12 +215,12 @@ function Card({
 
 function TitleStack({ active, compact }: { active: number; compact: boolean }) {
   const count = projects.length;
-  const order = [2, 1, 0, -1, -2].map((offset) => mod(active - offset, count));
+  const order = (compact ? [1, 0, -1] : [2, 1, 0, -1, -2]).map((offset) => mod(active - offset, count));
   return (
     <ol
       className={
         compact
-          ? "absolute inset-x-5 bottom-0 max-h-[48%]"
+          ? "shrink-0 px-5 pb-2"
           : "absolute top-1/2 right-8 w-[280px] -translate-y-1/2"
       }
     >
