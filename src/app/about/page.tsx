@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { Photo } from "@/components/photo";
-import { images, studio } from "@/content/site";
+import { images, stats, studio } from "@/content/site";
 
 export const metadata: Metadata = { title: "About" };
 
@@ -33,6 +33,17 @@ export default function AboutPage() {
             <p key={paragraph.slice(0, 24)} className="text-[15px] leading-[1.6]">
               {paragraph}
             </p>
+          ))}
+        </div>
+      </Rail>
+
+      <Rail label="(02) — In numbers">
+        <div className="grid gap-x-16 sm:grid-cols-2">
+          {stats.map((stat) => (
+            <div key={stat.label} className="border-t border-line py-6">
+              <p className="text-[12px] font-medium tracking-[0.02em] text-muted uppercase">{stat.label}</p>
+              <p className="text-[168px] leading-none font-light tracking-[-0.07em] max-[809px]:text-[96px]">{stat.value}</p>
+            </div>
           ))}
         </div>
       </Rail>
