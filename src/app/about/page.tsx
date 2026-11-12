@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { Photo } from "@/components/photo";
+import { ClientMarquee } from "@/components/client-marquee";
 import { images, stats, studio } from "@/content/site";
 
 export const metadata: Metadata = { title: "About" };
@@ -47,6 +48,13 @@ export default function AboutPage() {
           ))}
         </div>
       </Rail>
+
+      <section className="py-16">
+        <p className="px-8 pb-6 text-[12px] font-medium tracking-[0.02em] text-muted uppercase max-[809px]:px-5">
+          (03) — Selected clients
+        </p>
+        <ClientMarquee />
+      </section>
     </main>
   );
 }
