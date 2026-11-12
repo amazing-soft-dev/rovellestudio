@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Masonry } from "@/components/masonry";
+import { Reveal } from "@/components/reveal";
 import { playground, studio } from "@/content/site";
 
 export const metadata: Metadata = { title: "Playground" };
@@ -13,7 +14,9 @@ export default function PlaygroundPage() {
           <p className="text-[12px] font-medium tracking-[0.02em] text-muted uppercase">(Explorations)</p>
         </div>
         <div className="max-w-[320px]">
+          <Reveal>
           <p className="text-[15px] leading-[1.5]">{studio.playgroundNote}</p>
+        </Reveal>
           <p className="mt-8 text-[12px] font-medium tracking-[0.02em] text-muted uppercase">© 2026 Rovelle Studio — Warsaw, PL</p>
         </div>
       </aside>
