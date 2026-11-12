@@ -3,7 +3,7 @@ import type { ReactNode } from "react";
 import { ServiceList } from "@/components/accordions";
 import { ClientMarquee } from "@/components/client-marquee";
 import { Photo } from "@/components/photo";
-import { awards, images, stats, studio } from "@/content/site";
+import { awards, images, stats, studio, team } from "@/content/site";
 
 export const metadata: Metadata = { title: "About" };
 
@@ -78,6 +78,21 @@ export default function AboutPage() {
             </li>
           ))}
         </ul>
+      </Rail>
+
+      <Rail label="(06) — The team" note="Six people, one table. Small enough to stay close to the work, senior enough to lead it.">
+        <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+          {team.map((person) => (
+            <article key={person.name}>
+              <div className="relative aspect-[440/360] overflow-hidden rounded-[10px]">
+                <Photo name={person.image} alt={`Portrait of ${person.name}`} sizes="(min-width: 1200px) 30vw, 50vw" />
+              </div>
+              <p className="mt-3 text-[12px] font-medium tracking-[0.02em] text-muted uppercase">{person.role}</p>
+              <h3 className="text-[22px] font-semibold tracking-[-0.03em]">{person.name}</h3>
+              <p className="text-[12px] text-muted">{person.socials}</p>
+            </article>
+          ))}
+        </div>
       </Rail>
     </main>
   );
