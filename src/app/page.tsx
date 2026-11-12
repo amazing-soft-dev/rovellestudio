@@ -1,3 +1,4 @@
+import { VortexHelix } from "@/components/vortex-helix";
 import { studio } from "@/content/site";
 
 export default function HomePage() {
@@ -7,6 +8,9 @@ export default function HomePage() {
         <strong className="font-bold">Rovelle</strong>
         {studio.intro.replace(/^Rovelle/, "")}
       </p>
+      <div className="absolute inset-x-0 top-[72px] bottom-16 min-[1200px]:inset-0">
+        <VortexHelix />
+      </div>
       <div className="absolute bottom-16 left-7 z-10 max-[959px]:bottom-auto max-[959px]:top-[88px] min-[1200px]:bottom-[150px]">
         <p className="mb-1 text-[28px] font-semibold tracking-[-0.03em] max-[809px]:text-[18px]">© 2019—26</p>
         <h1 className="text-[150px] leading-[0.88] font-bold tracking-[-0.06em] max-[1199px]:text-[96px] max-[809px]:text-[56px]">
