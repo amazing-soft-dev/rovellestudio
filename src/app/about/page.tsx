@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
+import Link from "next/link";
 import { ServiceList } from "@/components/accordions";
 import { ClientMarquee } from "@/components/client-marquee";
 import { Photo } from "@/components/photo";
-import { awards, images, stats, studio } from "@/content/site";
+import { awards, images, plans, stats, studio, team } from "@/content/site";
 
 export const metadata: Metadata = { title: "About" };
 
@@ -78,6 +79,47 @@ export default function AboutPage() {
             </li>
           ))}
         </ul>
+      </Rail>
+
+      <Rail label="(06) — The team" note="Six people, one table. Small enough to stay close to the work, senior enough to lead it.">
+        <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+          {team.map((person) => (
+            <article key={person.name}>
+              <div className="relative aspect-[440/360] overflow-hidden rounded-[10px]">
+                <Photo name={person.image} alt={`Portrait of ${person.name}`} sizes="(min-width: 1200px) 30vw, 50vw" />
+              </div>
+              <p className="mt-3 text-[12px] font-medium tracking-[0.02em] text-muted uppercase">{person.role}</p>
+              <h3 className="text-[22px] font-semibold tracking-[-0.03em]">{person.name}</h3>
+              <p className="text-[12px] text-muted">{person.socials}</p>
+            </article>
+          ))}
+        </div>
+      </Rail>
+
+      <Rail label="(07) — Pricing" note="Pick the level of creative support your project needs. Every plan can be paused or changed month to month.">
+        <div className="mb-6 flex items-end justify-between gap-6">
+          <h2 className="text-[104px] leading-none font-bold tracking-[-0.055em] max-[809px]:text-[56px]">Pricing</h2>
+          <Link href="/contact" className="text-[12px] font-medium tracking-[0.08em] uppercase">
+            Let’s talk ↗
+          </Link>
+        </div>
+        {plans.map((plan) => (
+          <article key={plan.name} className="grid gap-6 border-t border-line py-8 md:grid-cols-[1fr_220px]">
+            <div>
+              <h3 className="text-[28px] font-semibold tracking-[-0.03em]">{plan.name}</h3>
+              <ul className="mt-3 space-y-1 text-[15px]">
+                {plan.features.map((feature) => (
+                  <li key={feature}>+ {feature}</li>
+                ))}
+              </ul>
+            </div>
+            <div className="md:text-right">
+              <p className="text-[15px] text-muted">{plan.description}</p>
+              <p className="mt-2 text-[56px] leading-none font-medium tracking-[-0.04em] max-[809px]:text-[40px]">{plan.price}</p>
+              <p className="text-[12px] tracking-[0.08em] text-muted uppercase">/ month</p>
+            </div>
+          </article>
+        ))}
       </Rail>
     </main>
   );
