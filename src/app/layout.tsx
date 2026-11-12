@@ -15,8 +15,13 @@ const instrument = Instrument_Serif({
 });
 
 export const metadata: Metadata = {
-  title: "Rovelle Studio",
-  description: "Rovelle is an independent studio.",
+  metadataBase: new URL("https://rovellestudio.example"),
+  title: {
+    default: "Rovelle Studio Portfolio",
+    template: "%s — Rovelle Studio",
+  },
+  description:
+    "Rovelle is an independent studio shaping brands and digital products through motion, clarity and craft.",
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
