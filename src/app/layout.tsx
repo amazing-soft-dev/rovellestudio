@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Instrument_Serif } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { SiteHeader } from "@/components/site-header";
 import { PageWipe } from "@/components/page-wipe";
 import "./globals.css";
@@ -27,12 +29,19 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+  const analytics = process.env.VERCEL_ENV === "production";
   return (
     <html lang="en" className={`${geist.variable} ${instrument.variable}`}>
       <body className="bg-canvas text-ink antialiased">
         <SiteHeader />
         <PageWipe />
         {children}
+        {analytics ? (
+          <>
+            <Analytics />
+            <SpeedInsights />
+          </>
+        ) : null}
       </body>
     </html>
   );
