@@ -29,14 +29,19 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+  const analytics = process.env.VERCEL_ENV === "production";
   return (
     <html lang="en" className={`${geist.variable} ${instrument.variable}`}>
       <body className="bg-canvas text-ink antialiased">
         <SiteHeader />
         <PageWipe />
         {children}
-        <Analytics />
-        <SpeedInsights />
+        {analytics ? (
+          <>
+            <Analytics />
+            <SpeedInsights />
+          </>
+        ) : null}
       </body>
     </html>
   );
