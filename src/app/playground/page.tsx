@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Masonry } from "@/components/masonry";
 import { playground, studio } from "@/content/site";
 
 export const metadata: Metadata = { title: "Playground" };
@@ -18,7 +19,8 @@ export default function PlaygroundPage() {
       </aside>
       <section className="relative min-h-dvh px-4 pt-[140px] max-[999px]:min-h-[40vh] max-[999px]:px-5 max-[999px]:pt-8">
         <div className="pointer-events-none absolute inset-x-0 top-0 z-10 h-[120px] bg-gradient-to-b from-canvas to-transparent" />
-        <div className="pointer-events-none sticky bottom-0 z-10 h-[120px] bg-gradient-to-t from-canvas to-transparent" />
+        <Masonry />
+        <div className="pointer-events-none sticky bottom-0 z-10 -mt-24 h-[120px] bg-gradient-to-t from-canvas to-transparent" />
       </section>
     </main>
   );

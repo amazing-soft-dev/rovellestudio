@@ -20,6 +20,14 @@ body {
   font-family: var(--font-sans);
 }
 
+.vtx-masonry-card img {
+  transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.vtx-masonry-card:hover img {
+  transform: scale(1.025);
+}
+
 @keyframes marquee {
   from {
     transform: translateX(0);
@@ -30,7 +38,9 @@ body {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .vtx-masonry-card img,
   .marquee-track {
+    transition: none !important;
     animation: none !important;
   }
 }
