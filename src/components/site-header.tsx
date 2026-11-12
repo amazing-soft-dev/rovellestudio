@@ -50,8 +50,8 @@ export function SiteHeader() {
         <div className="h-px bg-line" />
       </div>
 
-      <div className="pointer-events-auto min-[1200px]:hidden">
-        <div className="flex h-[72px] items-center justify-between bg-canvas px-5">
+      <div className="pointer-events-auto flex flex-col items-end min-[1200px]:hidden">
+        <div className="flex h-[72px] w-full items-center justify-between bg-canvas px-5">
           <Logo />
           <div className="flex items-center gap-2">
             <Link
@@ -73,7 +73,7 @@ export function SiteHeader() {
           </div>
         </div>
         {open ? (
-          <nav id="phone-menu" aria-label="Primary" className="bg-canvas px-5 pb-6">
+          <nav id="phone-menu" aria-label="Primary" className="ml-auto w-full max-w-[360px] bg-canvas px-5 pb-6">
             <ul className="flex flex-col">
               {nav.map((item) => (
                 <li key={item.href}>

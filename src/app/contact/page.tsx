@@ -15,9 +15,9 @@ export default function ContactPage() {
           {studio.booking}
         </p>
       </div>
-      <div className="mt-8 flex h-[140px] gap-3 overflow-hidden">
+      <div className="mt-8 flex h-[140px] gap-3 overflow-hidden max-[809px]:h-[108px]">
         {projects.map((project) => (
-          <div key={project.slug} className="relative h-full w-[180px] shrink-0 overflow-hidden rounded-lg">
+          <div key={project.slug} className="relative h-full w-[180px] shrink-0 overflow-hidden rounded-lg max-[809px]:w-[104px]">
             <Photo name={project.image} alt="" sizes="180px" />
           </div>
         ))}
@@ -31,7 +31,7 @@ export default function ContactPage() {
         </h1>
         <p className="max-w-[280px] text-[15px] leading-[1.5]">{studio.contactNote}</p>
       </div>
-      <div className="mt-10 grid gap-8 border-t border-line pt-6 md:grid-cols-2 xl:grid-cols-4">
+      <div className="mt-10 grid grid-cols-2 gap-8 border-t border-line pt-6 max-[809px]:[&>*:first-child]:col-span-2 max-[809px]:[&>*:last-child]:col-span-2 xl:grid-cols-4">
         <Info label="(01) Email" value={studio.email} href={`mailto:${studio.email}`} />
         <Info label="(02) Phone" value={studio.phone} href={studio.phoneHref} />
         <div>

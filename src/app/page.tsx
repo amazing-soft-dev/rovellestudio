@@ -8,7 +8,7 @@ export default function HomePage() {
         <strong className="font-bold">Rovelle</strong>
         {studio.intro.replace(/^Rovelle/, "")}
       </p>
-      <div className="absolute inset-x-0 top-[72px] bottom-16 min-[1200px]:inset-0">
+      <div className="absolute inset-x-0 top-[72px] bottom-16 max-[809px]:top-[15.5rem] min-[810px]:max-[959px]:top-[21rem] min-[1200px]:inset-0">
         <VortexHelix />
       </div>
       <div className="absolute bottom-16 left-7 z-10 max-[959px]:bottom-auto max-[959px]:top-[88px] min-[1200px]:bottom-[150px]">
