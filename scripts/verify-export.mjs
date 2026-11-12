@@ -3,7 +3,19 @@ import path from "node:path";
 
 export async function verifyExport() {
   const out = path.join(process.cwd(), "out");
-  await access(path.join(out, "index.html"));
+  const required = [
+    "index.html",
+    "about.html",
+    "playground.html",
+    "contact.html",
+    "sitemap.xml",
+    "robots.txt",
+    "icon.png",
+    "llms.txt",
+  ];
+  for (const file of required) {
+    await access(path.join(out, file));
+  }
   try {
     await access(path.join(out, "api"));
     throw new Error("out/api must not exist");
