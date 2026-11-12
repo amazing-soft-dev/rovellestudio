@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Instrument_Serif } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { SiteHeader } from "@/components/site-header";
 import { PageWipe } from "@/components/page-wipe";
 import "./globals.css";
@@ -33,6 +35,8 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <SiteHeader />
         <PageWipe />
         {children}
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
