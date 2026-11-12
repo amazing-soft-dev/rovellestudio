@@ -4,6 +4,7 @@ import Link from "next/link";
 import { FaqList, ServiceList } from "@/components/accordions";
 import { ClientMarquee } from "@/components/client-marquee";
 import { Photo } from "@/components/photo";
+import { Reveal } from "@/components/reveal";
 import { awards, images, plans, projects, stats, studio, team } from "@/content/site";
 
 export const metadata: Metadata = { title: "About" };
@@ -30,16 +31,18 @@ export default function AboutPage() {
       </section>
 
       <Rail label="(01) — Our principles">
-        <p className="max-w-[760px] text-[28px] leading-[1.25] font-medium tracking-[-0.03em] max-[809px]:text-[22px]">
-          {studio.principlesLead}
-        </p>
-        <div className="mt-10 grid gap-8 md:grid-cols-2">
-          {studio.principles.map((paragraph) => (
-            <p key={paragraph.slice(0, 24)} className="text-[15px] leading-[1.6]">
-              {paragraph}
-            </p>
-          ))}
-        </div>
+        <Reveal>
+          <p className="max-w-[760px] text-[28px] leading-[1.25] font-medium tracking-[-0.03em] max-[809px]:text-[22px]">
+            {studio.principlesLead}
+          </p>
+          <div className="mt-10 grid gap-8 md:grid-cols-2">
+            {studio.principles.map((paragraph) => (
+              <p key={paragraph.slice(0, 24)} className="text-[15px] leading-[1.6]">
+                {paragraph}
+              </p>
+            ))}
+          </div>
+        </Reveal>
       </Rail>
 
       <Rail label="(02) — In numbers">
