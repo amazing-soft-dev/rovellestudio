@@ -3,13 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-
-const nav = [
-  { href: "/", label: "Work" },
-  { href: "/about", label: "About" },
-  { href: "/playground", label: "Playground" },
-  { href: "/contact", label: "Contact" },
-];
+import { nav, studio } from "@/content/site";
 
 function current(pathname: string, href: string) {
   if (href === "/") return pathname === "/";
@@ -97,7 +91,7 @@ export function SiteHeader() {
               ))}
             </ul>
             <div className="mt-6 flex items-center justify-between border-t border-line pt-4 text-[12px] font-medium tracking-[0.02em] text-muted uppercase">
-              <a href="mailto:hello@rovelle.studio">hello@rovelle.studio</a>
+              <a href={`mailto:${studio.email}`}>{studio.email}</a>
               <span>Warsaw, PL</span>
             </div>
           </nav>
