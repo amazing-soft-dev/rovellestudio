@@ -36,8 +36,15 @@ export function SiteHeader() {
                 {item.label}
               </Link>
             ))}
+            <Link
+              href="/contact"
+              className="rounded-full bg-ink px-[34px] py-5 text-[18px] font-semibold tracking-[0.01em] text-canvas uppercase"
+            >
+              Book a call ↗
+            </Link>
           </nav>
         </div>
+        <div className="h-px bg-line" />
       </div>
     </header>
   );
