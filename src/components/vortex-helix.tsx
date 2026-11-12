@@ -98,7 +98,11 @@ export function VortexHelix() {
   return (
     <div ref={frame} className="relative h-full w-full">
       <div
-        className="absolute inset-0 overflow-hidden"
+        className={
+          compact
+            ? "absolute inset-x-0 top-0 bottom-1/2 overflow-hidden"
+            : "absolute inset-0 overflow-hidden"
+        }
         style={{
           perspective: `${perspective}px`,
           maskImage: "linear-gradient(to bottom, transparent 0%, #000 20%, #000 80%, transparent 100%)",
@@ -220,7 +224,7 @@ function TitleStack({ active, compact }: { active: number; compact: boolean }) {
     <ol
       className={
         compact
-          ? "absolute inset-x-5 bottom-16"
+          ? "absolute inset-x-5 bottom-0 max-h-[48%]"
           : "absolute top-1/2 right-8 w-[280px] -translate-y-1/2"
       }
     >
@@ -229,13 +233,24 @@ function TitleStack({ active, compact }: { active: number; compact: boolean }) {
         const selected = index === active;
         const number = String(index + 1).padStart(2, "0");
         return (
-          <li key={project.slug} className={selected ? "rounded-2xl bg-white/70 px-4 py-4" : "px-4 py-3"}>
+          <li
+            key={project.slug}
+            className={
+              selected
+                ? `rounded-2xl bg-white/70 px-4 ${compact ? "py-2" : "py-4"}`
+                : `px-4 ${compact ? "py-1.5" : "py-3"}`
+            }
+          >
             <Link href={`/work/${project.slug}`} className="block">
               <p className="text-[11px] font-medium tracking-[0.02em] text-muted uppercase">
                 {compact && selected ? `${number}/0${count} — ` : ""}
                 {project.category}
               </p>
-              <p className="text-[26px] leading-none font-medium tracking-[-0.03em] uppercase">{project.title}</p>
+              <p
+                className={`leading-none font-medium tracking-[-0.03em] uppercase ${compact ? "text-[22px]" : "text-[26px]"}`}
+              >
+                {project.title}
+              </p>
               {selected ? <p className="mt-1 text-[11px] font-medium text-muted">{project.subtitle}</p> : null}
             </Link>
           </li>
