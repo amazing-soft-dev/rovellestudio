@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useState } from "react";
 
 const nav = [
   { href: "/", label: "Work" },
@@ -17,6 +18,7 @@ function current(pathname: string, href: string) {
 
 export function SiteHeader() {
   const pathname = usePathname();
+  const [open, setOpen] = useState(false);
 
   return (
     <header className="pointer-events-none fixed inset-x-0 top-0 z-40">
@@ -46,6 +48,54 @@ export function SiteHeader() {
         </div>
         <div className="h-px bg-line" />
       </div>
+
+      <div className="pointer-events-auto min-[1200px]:hidden">
+        <div className="flex h-[72px] items-center justify-between bg-canvas px-5">
+          <Logo />
+          <div className="flex items-center gap-2">
+            <Link
+              href="/contact"
+              className="rounded-full bg-ink px-4 py-2 text-[12px] font-semibold tracking-[0.08em] text-canvas uppercase"
+            >
+              Book a call ↗
+            </Link>
+            <button
+              type="button"
+              className="grid size-10 place-items-center"
+              aria-expanded={open}
+              aria-controls="phone-menu"
+              aria-label={open ? "Close menu" : "Open menu"}
+              onClick={() => setOpen((value) => !value)}
+            >
+              {open ? <CloseIcon /> : <MenuIcon />}
+            </button>
+          </div>
+        </div>
+        {open ? (
+          <nav id="phone-menu" aria-label="Primary" className="bg-canvas px-5 pb-6">
+            <ul className="flex flex-col">
+              {nav.map((item) => (
+                <li key={item.href}>
+                  <Link
+                    href={item.href}
+                    aria-current={current(pathname, item.href) ? "page" : undefined}
+                    className={`block py-1 text-[40px] leading-none font-semibold tracking-[-0.04em] ${
+                      current(pathname, item.href) ? "underline underline-offset-4" : ""
+                    }`}
+                    onClick={() => setOpen(false)}
+                  >
+                    {item.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+            <div className="mt-6 flex items-center justify-between border-t border-line pt-4 text-[12px] font-medium tracking-[0.02em] text-muted uppercase">
+              <a href="mailto:hello@rovelle.studio">hello@rovelle.studio</a>
+              <span>Warsaw, PL</span>
+            </div>
+          </nav>
+        ) : null}
+      </div>
     </header>
   );
 }
@@ -61,5 +111,21 @@ function Logo() {
       </svg>
       <span className="text-[22px] font-semibold tracking-[-0.04em]">Rovelle</span>
     </Link>
+  );
+}
+
+function MenuIcon() {
+  return (
+    <svg width="18" height="12" viewBox="0 0 18 12" aria-hidden="true">
+      <path d="M0 1h18M0 6h18M0 11h18" stroke="currentColor" strokeWidth="1.5" />
+    </svg>
+  );
+}
+
+function CloseIcon() {
+  return (
+    <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true">
+      <path d="M1 1l12 12M13 1 1 13" stroke="currentColor" strokeWidth="1.5" />
+    </svg>
   );
 }
