@@ -1,0 +1,87 @@
+name: Open pull request
+
+on:
+  push:
+    branches:
+      - "feat/**"
+      - "fix/**"
+      - "docs/**"
+      - "ci/**"
+      - "build/**"
+      - dev
+
+jobs:
+  open:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GH_TOKEN }}
+      - uses: actions/github-script@v8
+        with:
+          github-token: ${{ secrets.GH_TOKEN }}
+          script: |
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const head = context.ref.replace("refs/heads/", "");
+            const devPush = head === "dev";
+            const base = devPush ? "main" : "dev";
+            const prefix = /^(?:feat|fix|docs|ci|build)\/\d+(?:-|$)/;
+            if (!devPush && !prefix.test(head)) {
+              core.info(`Skipping ${head}`);
+              return;
+            }
+
+            const { data: existing } = await github.rest.pulls.list({
+              owner,
+              repo,
+              state: "open",
+              head: `${owner}:${head}`,
+              base,
+            });
+
+            async function promotionBody() {
+              const { data: comparison } = await github.rest.repos.compareCommits({
+                owner,
+                repo,
+                base: "main",
+                head: "dev",
+              });
+              const numbers = new Set();
+              const branchPattern = /(?:feat|fix|docs|ci|build)\/(\d+)(?:-|$)/g;
+              const keywordPattern = /(?:Closes|Fixes|Resolves)\s+#(\d+)/gi;
+              for (const commit of comparison.commits ?? []) {
+                const text = `${commit.commit.message}\n${commit.commit.subject ?? ""}`;
+                for (const match of text.matchAll(branchPattern)) numbers.add(match[1]);
+                for (const match of text.matchAll(keywordPattern)) numbers.add(match[1]);
+              }
+              const lines = [...numbers].sort((a, b) => Number(a) - Number(b)).map((number) => `Closes #${number}`);
+              return ["Promote dev to main.", "", ...lines].join("\n");
+            }
+
+            if (existing.length > 0) {
+              if (devPush) {
+                await github.rest.pulls.update({
+                  owner,
+                  repo,
+                  pull_number: existing[0].number,
+                  body: await promotionBody(),
+                });
+              }
+              core.info(`Pull request #${existing[0].number} already open`);
+              return;
+            }
+
+            const body = devPush
+              ? await promotionBody()
+              : "Feature work into dev. Issues close when this lands on main.";
+            const { data: created } = await github.rest.pulls.create({
+              owner,
+              repo,
+              head,
+              base,
+              title: devPush ? "Promote dev to main" : head,
+              body,
+            });
+            core.info(`Opened #${created.number}`);

@@ -1,0 +1,49 @@
+name: Merge passing pull request
+
+on:
+  workflow_run:
+    workflows: ["CI"]
+    types: [completed]
+
+jobs:
+  merge:
+    if: github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.event == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v8
+        with:
+          github-token: ${{ secrets.GH_TOKEN }}
+          script: |
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const run = context.payload.workflow_run;
+            const sha = run.head_sha;
+            const pulls = run.pull_requests ?? [];
+            if (pulls.length === 0) {
+              core.info("No pull request attached to this run");
+              return;
+            }
+            for (const pull of pulls) {
+              const { data: pr } = await github.rest.pulls.get({
+                owner,
+                repo,
+                pull_number: pull.number,
+              });
+              if (pr.state !== "open" || pr.draft || pr.head.sha !== sha) continue;
+              const head = pr.head.ref;
+              const base = pr.base.ref;
+              const feature = /^(?:feat|fix|docs|ci|build)\/\d+(?:-|$)/.test(head) && base === "dev";
+              const promotion = head === "dev" && base === "main";
+              if (!feature && !promotion) {
+                core.info(`Leaving #${pr.number} (${head} -> ${base})`);
+                continue;
+              }
+              await github.rest.pulls.merge({
+                owner,
+                repo,
+                pull_number: pr.number,
+                merge_method: "merge",
+                sha,
+              });
+              core.info(`Merged #${pr.number}`);
+            }

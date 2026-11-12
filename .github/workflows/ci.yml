@@ -1,0 +1,87 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [dev, main]
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lint:
+    name: Lint and type check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: "latest"
+          cache: npm
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run typecheck
+      - run: npm run check:images
+
+  build:
+    name: Build (server and static)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: "latest"
+          cache: npm
+      - run: npm ci
+      - run: npm run images
+      - run: npm run build
+      - run: npm run export:static
+
+  gate:
+    name: CI passed
+    needs: [lint, build]
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Require both jobs
+        run: |
+          if [ "${{ needs.lint.result }}" != "success" ] || [ "${{ needs.build.result }}" != "success" ]; then
+            echo "lint=${{ needs.lint.result }} build=${{ needs.build.result }}"
+            exit 1
+          fi
+      - name: Summarize
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v8
+        with:
+          script: |
+            const body = [
+              "### CI passed",
+              "",
+              `- Lint and type check: ${{ needs.lint.result }}`,
+              `- Build (server and static): ${{ needs.build.result }}`,
+              "",
+              `Head \`${{ github.event.pull_request.head.sha }}\``,
+            ].join("\n");
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+            });
+            const existing = comments.find((comment) => comment.user?.type === "Bot" && comment.body?.startsWith("### CI passed"));
+            if (existing) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: existing.id,
+                body,
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body,
+              });
+            }
