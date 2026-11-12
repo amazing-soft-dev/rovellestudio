@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Instrument_Serif } from "next/font/google";
+import { SiteHeader } from "@/components/site-header";
 import "./globals.css";
 
 const geist = Geist({
@@ -27,7 +28,10 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className={`${geist.variable} ${instrument.variable}`}>
-      <body className="bg-canvas text-ink antialiased">{children}</body>
+      <body className="bg-canvas text-ink antialiased">
+        <SiteHeader />
+        {children}
+      </body>
     </html>
   );
 }
