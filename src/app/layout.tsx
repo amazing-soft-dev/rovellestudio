@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Instrument_Serif } from "next/font/google";
 import { SiteHeader } from "@/components/site-header";
+import { PageWipe } from "@/components/page-wipe";
 import "./globals.css";
 
 const geist = Geist({
@@ -30,6 +31,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     <html lang="en" className={`${geist.variable} ${instrument.variable}`}>
       <body className="bg-canvas text-ink antialiased">
         <SiteHeader />
+        <PageWipe />
         {children}
       </body>
     </html>
