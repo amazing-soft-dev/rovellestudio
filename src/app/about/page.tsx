@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
-import { Photo } from "@/components/photo";
+import { ServiceList } from "@/components/accordions";
 import { ClientMarquee } from "@/components/client-marquee";
-import { images, stats, studio } from "@/content/site";
+import { Photo } from "@/components/photo";
+import { awards, images, stats, studio } from "@/content/site";
 
 export const metadata: Metadata = { title: "About" };
 
@@ -55,14 +56,48 @@ export default function AboutPage() {
         </p>
         <ClientMarquee />
       </section>
+
+      <Rail
+        label="(04) — Services"
+        note="Four disciplines, one studio — so the brand, the product and the motion all come from the same hands."
+      >
+        <ServiceList />
+      </Rail>
+
+      <Rail
+        label="(05) — Recognition"
+        note="Awards are nice. But they only happen when great clients trust the process and give brave work room to exist."
+      >
+        <h2 className="text-[104px] leading-none font-bold tracking-[-0.055em] max-[809px]:text-[56px]">Our awards</h2>
+        <ul className="mt-8">
+          {awards.map((award) => (
+            <li key={award.name} className="grid grid-cols-[1.2fr_1fr_auto] gap-4 border-t border-line py-4 text-[16px] max-[809px]:grid-cols-1">
+              <span className="font-semibold tracking-[0.1em] uppercase">{award.name}</span>
+              <span>{award.category}</span>
+              <span className="font-semibold tracking-[0.1em]">{award.count}</span>
+            </li>
+          ))}
+        </ul>
+      </Rail>
     </main>
   );
 }
 
-function Rail({ label, children }: { label: string; children: ReactNode }) {
+function Rail({
+  label,
+  note,
+  children,
+}: {
+  label: string;
+  note?: string;
+  children: ReactNode;
+}) {
   return (
     <section className="grid gap-8 px-8 py-16 xl:grid-cols-[490px_minmax(0,1fr)] max-[809px]:px-5">
-      <p className="text-[12px] font-medium tracking-[0.02em] text-muted uppercase">{label}</p>
+      <div>
+        <p className="text-[12px] font-medium tracking-[0.02em] text-muted uppercase">{label}</p>
+        {note ? <p className="mt-4 max-w-[280px] text-[15px] leading-[1.45]">{note}</p> : null}
+      </div>
       <div>{children}</div>
     </section>
   );
