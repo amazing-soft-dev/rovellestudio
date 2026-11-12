@@ -1,1 +1,21 @@
 @import "tailwindcss";
+
+@theme {
+  --color-canvas: #eee5d9;
+  --color-ink: #141414;
+  --color-muted: #8a8072;
+  --color-card: #e4dacb;
+  --color-line: rgb(20 20 20 / 0.12);
+  --font-sans: var(--font-geist), sans-serif;
+  --font-serif: var(--font-instrument), serif;
+}
+
+html {
+  background: var(--color-canvas);
+  color: var(--color-ink);
+}
+
+body {
+  min-height: 100%;
+  font-family: var(--font-sans);
+}
