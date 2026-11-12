@@ -4,9 +4,11 @@ import Link from "next/link";
 import { ServiceList } from "@/components/accordions";
 import { ClientMarquee } from "@/components/client-marquee";
 import { Photo } from "@/components/photo";
-import { awards, images, plans, stats, studio, team } from "@/content/site";
+import { awards, images, plans, projects, stats, studio, team } from "@/content/site";
 
 export const metadata: Metadata = { title: "About" };
+
+const featured = projects.find((project) => project.slug === "solar-inc-landing") ?? projects[0]!;
 
 export default function AboutPage() {
   return (
@@ -120,6 +122,20 @@ export default function AboutPage() {
             </div>
           </article>
         ))}
+      </Rail>
+
+      <Rail label="(08) — Featured project">
+        <Link href={`/work/${featured.slug}`} className="grid items-center gap-8 md:grid-cols-2">
+          <div className="relative h-[420px] overflow-hidden rounded-xl">
+            <Photo name={featured.image} alt={`${featured.title} — project cover`} sizes="(min-width: 1200px) 40vw, 100vw" />
+          </div>
+          <div>
+            <p className="text-[12px] font-medium tracking-[0.02em] text-muted uppercase">(Work) — {featured.category}</p>
+            <h2 className="mt-3 text-[72px] leading-none font-bold tracking-[-0.05em] max-[809px]:text-[48px]">{featured.title}</h2>
+            <p className="font-serif text-[28px] italic">{featured.subtitle}</p>
+            <p className="mt-4 text-[12px] font-medium tracking-[0.08em] uppercase">View project ↗</p>
+          </div>
+        </Link>
       </Rail>
     </main>
   );
