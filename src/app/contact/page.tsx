@@ -52,6 +52,11 @@ export default function ContactPage() {
           <p className="mt-3 text-[12px] tracking-[0.02em] text-muted uppercase">{studio.scheduleNote}</p>
         </div>
       </div>
+      <footer className="mt-8 flex items-center justify-between text-[12px] font-medium tracking-[0.02em] text-muted uppercase">
+        <span>© 2026 Rovelle Studio</span>
+        <span className="max-[809px]:hidden">{studio.hours}</span>
+        <span className="max-[809px]:hidden">{studio.location}</span>
+      </footer>
     </main>
   );
 }
