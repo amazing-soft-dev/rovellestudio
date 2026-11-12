@@ -20,6 +20,16 @@ body {
   font-family: var(--font-sans);
 }
 
+::selection {
+  background: #141414;
+  color: #eee5d9;
+}
+
+:focus-visible {
+  outline: 2px solid #141414;
+  outline-offset: 3px;
+}
+
 .vtx-masonry-card img {
   transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
 }

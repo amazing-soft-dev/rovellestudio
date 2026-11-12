@@ -16,6 +16,7 @@ export function ServiceList() {
               type="button"
               className="flex w-full items-center gap-4 py-6 text-left"
               aria-expanded={expanded}
+              aria-controls={`service-${service.number}`}
               onClick={() => setOpen(expanded ? null : service.number)}
             >
               <span className="w-10 text-[12px] font-medium tracking-[0.02em] text-muted">{service.number}</span>
@@ -30,9 +31,9 @@ export function ServiceList() {
               </span>
             </button>
             {expanded ? (
-              <div className="grid gap-4 pb-8 pl-14 max-[809px]:pl-0">
+              <div id={`service-${service.number}`} className="grid gap-4 pb-8 pl-14 max-[809px]:pl-0">
                 <div className="relative h-[220px] overflow-hidden rounded-xl">
-                  <Photo name={service.image} alt="" sizes="(min-width: 1200px) 900px, 100vw" />
+                  <Photo name={service.image} alt={service.title} sizes="(min-width: 1200px) 900px, 100vw" />
                 </div>
                 <p className="max-w-[640px] text-[15px] leading-[1.5] text-muted">{service.body}</p>
               </div>
@@ -57,6 +58,7 @@ export function FaqList() {
               type="button"
               className="flex w-full items-center justify-between gap-6 py-6 text-left text-[18px]"
               aria-expanded={expanded}
+              aria-controls={`faq-${index}`}
               onClick={() => setOpen(expanded ? null : index)}
             >
               <span>{item.question}</span>
@@ -64,7 +66,11 @@ export function FaqList() {
                 {expanded ? "×" : "+"}
               </span>
             </button>
-            {expanded ? <p className="max-w-[640px] pb-6 text-[15px] leading-[1.5] text-muted">{item.answer}</p> : null}
+            {expanded ? (
+              <p id={`faq-${index}`} className="max-w-[640px] pb-6 text-[15px] leading-[1.5] text-muted">
+                {item.answer}
+              </p>
+            ) : null}
           </div>
         );
       })}
