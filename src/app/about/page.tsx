@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import Link from "next/link";
-import { ServiceList } from "@/components/accordions";
+import { FaqList, ServiceList } from "@/components/accordions";
 import { ClientMarquee } from "@/components/client-marquee";
 import { Photo } from "@/components/photo";
 import { awards, images, plans, projects, stats, studio, team } from "@/content/site";
@@ -137,7 +137,34 @@ export default function AboutPage() {
           </div>
         </Link>
       </Rail>
+
+      <Rail label="(09) — Questions, answered">
+        <FaqList />
+      </Rail>
+
+      <footer className="px-8 pt-16 pb-8 max-[809px]:px-5">
+        <div className="flex items-end gap-6 overflow-hidden">
+          <MarkLarge />
+          <p className="text-[18vw] leading-[0.8] font-bold tracking-[-0.06em]">Rovelle</p>
+        </div>
+        <div className="mt-6 flex items-center justify-between border-t border-line pt-4 text-[12px] font-medium tracking-[0.02em] text-muted uppercase">
+          <span>© 2026 Rovelle Studio</span>
+          <Link href="/">← All work</Link>
+          <span className="max-[809px]:hidden">{studio.location}</span>
+        </div>
+      </footer>
     </main>
+  );
+}
+
+function MarkLarge() {
+  return (
+    <svg viewBox="0 0 22 22" className="mb-[1vw] h-[12vw] w-[12vw] shrink-0" aria-hidden="true">
+      <path
+        fill="currentColor"
+        d="M9 0h4v6.2L16.8 2.4l2.8 2.8L15.8 9H22v4h-6.2l3.8 3.8-2.8 2.8L13 15.8V22H9v-6.2l-3.8 3.8-2.8-2.8L6.2 13H0V9h6.2L2.4 5.2 5.2 2.4 9 6.2V0Z"
+      />
+    </svg>
   );
 }
 
